@@ -13,7 +13,7 @@ The error `POST https://anas-frontend-production.up.railway.app/anas-backend.rai
 ## Root Cause
 
 The issue was caused by incorrect API URL configuration in the production environment. The frontend was trying to make requests to a non-existent endpoint instead of the proper backend service.
-
+ 
 ## Fixes Implemented
 
 ### 1. Environment Configuration

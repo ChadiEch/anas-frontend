@@ -1,7 +1,7 @@
 // API base URL - adjust based on your deployment
 // For Railway deployments, we need to handle the API URL properly
 const API_BASE_URL = import.meta.env.VITE_API_URL || 
-                  (import.meta.env.PROD ? '/api' : 'http://localhost:5000/api');
+                  (import.meta.env.PROD ? 'https://anas-backend.railway.internal/api' : 'http://localhost:5000/api');
 
 console.log('API Base URL:', API_BASE_URL); // For debugging
 
@@ -29,11 +29,14 @@ class ApiClient {
 
   // Make API request
   async request(endpoint, options = {}) {
-    // For Railway deployments, we might need to handle relative paths
+    // Construct the full URL
+    // For Railway deployments, we need to ensure we're using the correct path structure
     let url;
     if (endpoint.startsWith('/')) {
+      // If endpoint starts with /, append directly to baseURL
       url = `${this.baseURL}${endpoint}`;
     } else {
+      // If endpoint doesn't start with /, add it
       url = `${this.baseURL}/${endpoint}`;
     }
     
@@ -96,7 +99,7 @@ class ApiClient {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
 
-    // For Railway deployments, we might need to handle relative paths
+    // Construct the full URL
     let url;
     if (endpoint.startsWith('/')) {
       url = `${this.baseURL}${endpoint}`;

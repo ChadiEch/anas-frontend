@@ -1,0 +1,8 @@
+{
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "npm run build",
+    "startCommand": "npx serve dist --single",
+    "outputDirectory": "dist"
+  }
+}

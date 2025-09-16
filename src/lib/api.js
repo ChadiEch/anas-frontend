@@ -43,6 +43,8 @@ class ApiClient {
     
     const token = this.getToken();
     console.log('Token for request:', token);
+    console.log('Making request to:', url);
+    console.log('Request options:', options);
 
     const config = {
       headers: {
@@ -63,13 +65,18 @@ class ApiClient {
     try {
       console.log(`Making API request to: ${url}`); // For debugging
       const response = await fetch(url, config);
+      console.log('API response status:', response.status);
+      console.log('API response headers:', [...response.headers.entries()]);
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
+        console.error('API error response:', errorData);
         throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
       }
 
-      return await response.json();
+      const data = await response.json();
+      console.log('API response data:', data);
+      return data;
     } catch (error) {
       console.error('API request failed:', error);
       throw error;
@@ -100,6 +107,7 @@ class ApiClient {
   // POST request with form data (for file uploads)
   async postFormData(endpoint, formData) {
     const token = this.getToken();
+    console.log('Token for form data request:', token);
     
     const config = {
       method: 'POST',
@@ -110,6 +118,9 @@ class ApiClient {
     // Add auth token if available
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
+      console.log('Authorization header set for form data:', config.headers['Authorization']);
+    } else {
+      console.log('No token available for form data request, not setting Authorization header');
     }
 
     // Construct the full URL
@@ -122,14 +133,19 @@ class ApiClient {
     
     try {
       console.log(`Making API request to: ${url}`); // For debugging
+      console.log('Form data request config:', config);
       const response = await fetch(url, config);
+      console.log('Form data API response status:', response.status);
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
+        console.error('Form data API error response:', errorData);
         throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
       }
 
-      return await response.json();
+      const data = await response.json();
+      console.log('Form data API response:', data);
+      return data;
     } catch (error) {
       console.error('API request failed:', error);
       throw error;

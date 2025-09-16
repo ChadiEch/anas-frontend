@@ -64,7 +64,7 @@ const HomepageEditor = () => {
       console.error('Error updating homepage:', error);
       toast({ 
         title: "Error", 
-        description: "Failed to update homepage settings",
+        description: "Failed to update homepage settings: " + (error as Error).message,
         variant: "destructive" 
       });
     }
@@ -75,6 +75,7 @@ const HomepageEditor = () => {
     if (!files || files.length === 0) return;
 
     const file = files[0];
+    console.log('Selected file for upload:', file);
     if (file.type !== 'application/pdf') {
       toast({ 
         title: "Error", 
@@ -90,6 +91,7 @@ const HomepageEditor = () => {
       const formData = new FormData();
       formData.append('cv', file);
       
+      console.log('Uploading CV...');
       const result = await uploadCV(formData);
       console.log('CV upload result:', result);
       if (result) {
@@ -103,7 +105,7 @@ const HomepageEditor = () => {
       console.error('Error uploading CV:', error);
       toast({ 
         title: "Error", 
-        description: "Failed to upload CV",
+        description: "Failed to upload CV: " + (error as Error).message,
         variant: "destructive" 
       });
     } finally {

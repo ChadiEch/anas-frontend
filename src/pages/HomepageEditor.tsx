@@ -57,8 +57,6 @@ const HomepageEditor = () => {
       if (result) {
         setHomepageData(result);
         toast({ title: "Homepage settings updated successfully!" });
-        // Reload data to ensure consistency
-        await loadHomepageSettings();
       } else {
         throw new Error('Failed to update homepage settings');
       }

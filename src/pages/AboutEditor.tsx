@@ -56,8 +56,6 @@ const AboutEditor = () => {
       if (result) {
         setAboutData(result);
         toast({ title: "About section updated successfully!" });
-        // Reload data to ensure consistency
-        await loadAbout();
       } else {
         throw new Error('Failed to update about section');
       }

@@ -227,7 +227,7 @@ export const deleteContactSubmission = async (id: string): Promise<boolean> => {
   }
 };
 
-export const uploadCV = async (formData: FormData): Promise<{ cv_url: string } | null> => {
+export const uploadCV = async (formData: FormData): Promise<{ cv_url: string; message: string } | null> => {
   try {
     const data = await api.homepage.uploadCV(formData);
     return data;

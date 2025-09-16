@@ -49,6 +49,10 @@ const AboutEditor = () => {
     };
 
     console.log('Submitting about update:', aboutUpdate);
+    
+    // Add debugging
+    const token = localStorage.getItem('authToken');
+    console.log('Token in localStorage during submit:', token);
 
     try {
       const result = await updateAbout(aboutUpdate);

@@ -22,9 +22,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Check if user is logged in by verifying the token
     const checkAuth = async () => {
       const token = localStorage.getItem('authToken');
+      console.log('Token found in localStorage on app start:', token);
       if (token) {
         try {
           const response = await api.auth.verify();
+          console.log('Token verification response:', response);
           if (response.valid && response.user) {
             setUser(response.user);
             setSession({ user: response.user });
@@ -32,6 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             apiClient.setToken(token);
           } else {
             // Invalid token, remove it
+            console.log('Invalid token, removing from localStorage');
             localStorage.removeItem('authToken');
             localStorage.removeItem('isAdminLoggedIn');
             apiClient.setToken(null);
@@ -39,6 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } catch (error) {
           console.error('Auth verification failed:', error);
           // Invalid token, remove it
+          console.log('Token verification failed, removing from localStorage');
           localStorage.removeItem('authToken');
           localStorage.removeItem('isAdminLoggedIn');
           apiClient.setToken(null);

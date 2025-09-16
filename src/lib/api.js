@@ -24,6 +24,7 @@ class ApiClient {
 
   // Get auth token
   getToken() {
+    // Always check localStorage in case token was set elsewhere
     return this.token || localStorage.getItem('authToken');
   }
 
@@ -204,4 +205,5 @@ api.contact = {
   }
 };
 
+// Export both api and apiClient
 export default api;

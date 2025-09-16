@@ -1,6 +1,5 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import api from '@/lib/api';
+import api, { apiClient } from '@/lib/api';
 
 interface AuthContextType {
   user: { id: string; email: string; full_name?: string } | null;
@@ -29,16 +28,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           if (response.valid && response.user) {
             setUser(response.user);
             setSession({ user: response.user });
+            // Make sure the ApiClient has the token
+            apiClient.setToken(token);
           } else {
             // Invalid token, remove it
             localStorage.removeItem('authToken');
             localStorage.removeItem('isAdminLoggedIn');
+            apiClient.setToken(null);
           }
         } catch (error) {
           console.error('Auth verification failed:', error);
           // Invalid token, remove it
           localStorage.removeItem('authToken');
           localStorage.removeItem('isAdminLoggedIn');
+          apiClient.setToken(null);
         }
       }
       setLoading(false);
@@ -59,6 +62,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Update state
         setUser(response.user);
         setSession({ user: response.user });
+        
+        // Make sure the ApiClient has the token
+        apiClient.setToken(response.token);
         
         return true;
       }

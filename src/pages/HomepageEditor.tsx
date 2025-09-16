@@ -14,6 +14,11 @@ const HomepageEditor = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [homepageData, setHomepageData] = useState<any>(null);
+  const [formData, setFormData] = useState({
+    banner_title: '',
+    banner_subtitle: '',
+    banner_description: ''
+  });
   const [loading, setLoading] = useState(true);
   const [cvUploading, setCvUploading] = useState(false);
 
@@ -27,11 +32,32 @@ const HomepageEditor = () => {
     loadHomepageSettings();
   }, [user, navigate]);
 
+  // Sync form data when homepageData changes
+  useEffect(() => {
+    if (homepageData) {
+      setFormData({
+        banner_title: homepageData.banner_title || '',
+        banner_subtitle: homepageData.banner_subtitle || '',
+        banner_description: homepageData.banner_description || ''
+      });
+    }
+  }, [homepageData]);
+
   const loadHomepageSettings = async () => {
     try {
       const data = await fetchHomepageSettings();
       console.log('Loaded homepage data:', data);
       setHomepageData(data);
+      // Initialize form data with loaded data
+      if (data) {
+        const newFormData = {
+          banner_title: data.banner_title || '',
+          banner_subtitle: data.banner_subtitle || '',
+          banner_description: data.banner_description || ''
+        };
+        console.log('Setting form data to:', newFormData);
+        setFormData(newFormData);
+      }
     } catch (error) {
       console.error('Error loading homepage data:', error);
     } finally {
@@ -39,23 +65,31 @@ const HomepageEditor = () => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    console.log(`Form field ${name} changed to:`, value);
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
     
-    const homepageUpdate = {
-      banner_title: formData.get('banner_title') as string,
-      banner_subtitle: formData.get('banner_subtitle') as string,
-      banner_description: formData.get('banner_description') as string
-    };
-
-    console.log('Submitting homepage update:', homepageUpdate);
+    console.log('Submitting homepage update:', formData);
 
     try {
-      const result = await updateHomepageSettings(homepageUpdate);
+      const result = await updateHomepageSettings(formData);
       console.log('Update result:', result);
       if (result) {
         setHomepageData(result);
+        // Also update the form data to match the saved data
+        setFormData({
+          banner_title: result.banner_title || '',
+          banner_subtitle: result.banner_subtitle || '',
+          banner_description: result.banner_description || ''
+        });
         toast({ title: "Homepage settings updated successfully!" });
       } else {
         throw new Error('Failed to update homepage settings');
@@ -155,7 +189,8 @@ const HomepageEditor = () => {
                   <Input
                     id="banner_title"
                     name="banner_title"
-                    defaultValue={homepageData?.banner_title || ''}
+                    value={formData.banner_title}
+                    onChange={handleInputChange}
                     placeholder="Your main title"
                     required
                   />
@@ -166,7 +201,8 @@ const HomepageEditor = () => {
                   <Input
                     id="banner_subtitle"
                     name="banner_subtitle"
-                    defaultValue={homepageData?.banner_subtitle || ''}
+                    value={formData.banner_subtitle}
+                    onChange={handleInputChange}
                     placeholder="Your subtitle"
                     required
                   />
@@ -177,7 +213,8 @@ const HomepageEditor = () => {
                   <Textarea
                     id="banner_description"
                     name="banner_description"
-                    defaultValue={homepageData?.banner_description || ''}
+                    value={formData.banner_description}
+                    onChange={handleInputChange}
                     rows={4}
                     placeholder="Description of your skills and experience..."
                     required

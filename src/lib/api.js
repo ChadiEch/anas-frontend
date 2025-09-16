@@ -49,6 +49,9 @@ class ApiClient {
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Expires': '0',
         ...options.headers,
       },
       ...options,
@@ -85,7 +88,14 @@ class ApiClient {
 
   // GET request
   async get(endpoint) {
-    return this.request(endpoint, { method: 'GET' });
+    return this.request(endpoint, { 
+      method: 'GET',
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
   }
 
   // POST request

@@ -90,6 +90,7 @@ export const fetchAbout = async (): Promise<About | null> => {
 export const fetchHomepageSettings = async (): Promise<HomepageSettings | null> => {
   try {
     const data = await api.homepage.get();
+    console.log('Fetched homepage settings:', data);
     return data;
   } catch (error) {
     console.error('Error fetching homepage settings:', error);
@@ -189,7 +190,9 @@ export const updateAbout = async (about: Partial<About>): Promise<About | null> 
 
 export const updateHomepageSettings = async (settings: Partial<HomepageSettings>): Promise<HomepageSettings | null> => {
   try {
+    console.log('Updating homepage settings with:', settings);
     const data = await api.homepage.update(settings);
+    console.log('Updated homepage settings response:', data);
     return data;
   } catch (error) {
     console.error('Error updating homepage settings:', error);

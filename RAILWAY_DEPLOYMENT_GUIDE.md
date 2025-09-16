@@ -20,7 +20,7 @@ In your Railway project dashboard:
 2. Click on "Settings" → "Variables"
 3. Add the following environment variable:
    ```
-   VITE_API_URL=https://anas-backend.railway.internal/api
+   VITE_API_URL=https://anas-backend-production.up.railway.app/api
    ```
 
 ### 3. Configure Custom Domain (Optional)
@@ -36,7 +36,7 @@ The error you're seeing is because the frontend is trying to access the backend 
 
 1. Make sure your backend is deployed and running on Railway
 2. Update the `VITE_API_URL` environment variable in Railway to point to your backend service
-3. The format should be: `https://anas-backend.railway.internal/api`
+3. The format should be: `https://anas-backend-production.up.railway.app/api`
 
 ### 5. Redeploy
 
@@ -50,7 +50,7 @@ After making these changes:
 ### Common Issues
 
 1. **405 Method Not Allowed**: This usually means the frontend is trying to access an endpoint that doesn't exist or the URL is incorrect.
-   - Solution: Verify that `VITE_API_URL` is set to `https://anas-backend.railway.internal/api`
+   - Solution: Verify that `VITE_API_URL` is set to `https://anas-backend-production.up.railway.app/api`
 
 2. **CORS Errors**: If you see CORS errors in the browser console:
    - Make sure your backend is configured to accept requests from your frontend domain

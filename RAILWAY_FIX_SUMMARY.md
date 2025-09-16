@@ -14,7 +14,7 @@ The error `POST https://anas-frontend-production.up.railway.app/anas-backend.rai
 
 The issue was caused by incorrect API URL configuration in the production environment. The frontend was trying to make requests to a malformed URL that combined the frontend domain with the backend internal URL incorrectly.
 
-Based on your correction, the proper backend URL is `https://anas-backend.railway.internal` with API endpoints at paths like `/api/auth/login`.
+Based on your correction, the proper backend URL is `https://anas-backend-production.up.railway.app` with API endpoints at paths like `/api/auth/login`.
 
 ## Fixes Implemented
 
@@ -24,7 +24,7 @@ Based on your correction, the proper backend URL is `https://anas-backend.railwa
 - Updated [.env.railway](file:///c%3A/Users/user/Downloads/cad-craft-hub-main/cad-craft-hub-main/anas-frontend/.env.railway) with the correct Railway backend URL
 
 ### 2. API Client Improvements
-- Modified [src/lib/api.js](file:///c%3A/Users/user/Downloads/cad-craft-hub-main/cad-craft-hub-main/anas-frontend/src/lib/api.js) to use the correct Railway backend URL: `https://anas-backend.railway.internal/api`
+- Modified [src/lib/api.js](file:///c%3A/Users/user/Downloads/cad-craft-hub-main/cad-craft-hub-main/anas-frontend/src/lib/api.js) to use the correct Railway backend URL: `https://anas-backend-production.up.railway.app/api`
 - Improved URL construction logic to handle paths correctly
 - Added better error logging and debugging information
 
@@ -50,7 +50,7 @@ In your Railway project dashboard:
 2. Click on "Settings" → "Variables"
 3. Make sure the `VITE_API_URL` environment variable is set to:
    ```
-   VITE_API_URL=https://anas-backend.railway.internal/api
+   VITE_API_URL=https://anas-backend-production.up.railway.app/api
    ```
 
 ### 2. Redeploy Your Application
@@ -64,18 +64,18 @@ After updating the environment variables:
 
 Make sure your backend is properly deployed and accessible:
 1. Your backend should be deployed as a separate service on Railway
-2. The backend service should be accessible at `https://anas-backend.railway.internal`
+2. The backend service should be accessible at `https://anas-backend-production.up.railway.app`
 3. The backend should be configured to accept requests from your frontend domain
 
 ## Testing the Fix
 
 To verify that the fix works:
-1. Check the browser console for API request URLs (they should point to `https://anas-backend.railway.internal/api/auth/login`)
+1. Check the browser console for API request URLs (they should point to `https://anas-backend-production.up.railway.app/api/auth/login`)
 2. Try logging in to the admin dashboard
 3. Verify that all API calls are successful
 
 ## Additional Notes
 
-- The fix ensures that API calls are made to the correct Railway internal URL: `https://anas-backend.railway.internal/api`
+- The fix ensures that API calls are made to the correct Railway production URL: `https://anas-backend-production.up.railway.app/api`
 - Make sure your backend is configured to handle CORS properly for requests from your frontend
 - If you continue to experience issues, check the Railway logs for more detailed error information

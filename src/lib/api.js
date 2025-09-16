@@ -9,12 +9,11 @@ console.log('API Base URL:', API_BASE_URL); // For debugging
 class ApiClient {
   constructor() {
     this.baseURL = API_BASE_URL;
-    this.token = localStorage.getItem('authToken');
+    // Don't store token in instance property, always get from localStorage
   }
 
   // Set auth token
   setToken(token) {
-    this.token = token;
     if (token) {
       localStorage.setItem('authToken', token);
     } else {
@@ -22,10 +21,11 @@ class ApiClient {
     }
   }
 
-  // Get auth token
+  // Get auth token - always get from localStorage
   getToken() {
-    // Always check localStorage in case token was set elsewhere
-    return this.token || localStorage.getItem('authToken');
+    const token = localStorage.getItem('authToken');
+    console.log('Getting token from localStorage:', token);
+    return token;
   }
 
   // Make API request
@@ -42,6 +42,7 @@ class ApiClient {
     }
     
     const token = this.getToken();
+    console.log('Token for request:', token);
 
     const config = {
       headers: {
@@ -54,6 +55,9 @@ class ApiClient {
     // Add auth token if available
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
+      console.log('Authorization header set:', config.headers['Authorization']);
+    } else {
+      console.log('No token available, not setting Authorization header');
     }
 
     try {
@@ -81,6 +85,14 @@ class ApiClient {
   async post(endpoint, data) {
     return this.request(endpoint, {
       method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  // PUT request
+  async put(endpoint, data) {
+    return this.request(endpoint, {
+      method: 'PUT',
       body: JSON.stringify(data),
     });
   }
@@ -122,14 +134,6 @@ class ApiClient {
       console.error('API request failed:', error);
       throw error;
     }
-  }
-
-  // PUT request
-  async put(endpoint, data) {
-    return this.request(endpoint, {
-      method: 'PUT',
-      body: JSON.stringify(data),
-    });
   }
 
   // DELETE request

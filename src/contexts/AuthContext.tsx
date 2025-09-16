@@ -59,6 +59,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.setItem('authToken', response.token);
         localStorage.setItem('isAdminLoggedIn', 'true');
         
+        // Add debugging
+        console.log('Token stored in localStorage:', response.token);
+        
         // Update state
         setUser(response.user);
         setSession({ user: response.user });

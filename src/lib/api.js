@@ -1,7 +1,7 @@
 // API base URL - adjust based on your deployment
 // For Railway deployments, we need to handle the API URL properly
 const API_BASE_URL = import.meta.env.VITE_API_URL || 
-                  (import.meta.env.PROD ? 'https://anas-backend.railway.internal/api' : 'http://localhost:5000/api');
+                  (import.meta.env.PROD ? 'https://anas-backend-production.up.railway.app/api' : 'http://localhost:5000/api');
 
 console.log('API Base URL:', API_BASE_URL); // For debugging
 

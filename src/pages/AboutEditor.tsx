@@ -43,9 +43,13 @@ const AboutEditor = () => {
     };
 
     try {
-      await updateAbout(aboutUpdate);
-      toast({ title: "About section updated successfully!" });
-      loadAbout();
+      const result = await updateAbout(aboutUpdate);
+      if (result) {
+        setAboutData(result);
+        toast({ title: "About section updated successfully!" });
+      } else {
+        throw new Error('Failed to update about section');
+      }
     } catch (error) {
       toast({ 
         title: "Error", 

@@ -1,7 +1,7 @@
 import api from './api';
 
 export interface Technology {
-  id: string;
+  id: number;
   name: string;
   category: string;
   icon: string;
@@ -9,7 +9,7 @@ export interface Technology {
 }
 
 export interface Project {
-  id: string;
+  id: number;
   title: string;
   description: string;
   image_url: string;
@@ -20,14 +20,14 @@ export interface Project {
 }
 
 export interface About {
-  id: string;
+  id: number;
   content: string;
   skills: string[];
   experience_years: number;
 }
 
 export interface HomepageSettings {
-  id: string;
+  id: number;
   banner_title: string;
   banner_subtitle: string;
   banner_description: string;
@@ -37,7 +37,7 @@ export interface HomepageSettings {
 }
 
 export interface ContactInfo {
-  id: string;
+  id: number;
   email: string;
   phone: string;
   github: string;
@@ -48,7 +48,7 @@ export interface ContactInfo {
 }
 
 export interface ContactSubmission {
-  id: string;
+  id: number;
   name: string;
   email: string;
   phone?: string;

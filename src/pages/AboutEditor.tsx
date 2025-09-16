@@ -27,9 +27,15 @@ const AboutEditor = () => {
   }, [user, navigate]);
 
   const loadAbout = async () => {
-    const data = await fetchAbout();
-    setAboutData(data);
-    setLoading(false);
+    try {
+      const data = await fetchAbout();
+      console.log('Loaded about data:', data);
+      setAboutData(data);
+    } catch (error) {
+      console.error('Error loading about data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -42,15 +48,21 @@ const AboutEditor = () => {
       skills: (formData.get('skills') as string).split(',').map(s => s.trim())
     };
 
+    console.log('Submitting about update:', aboutUpdate);
+
     try {
       const result = await updateAbout(aboutUpdate);
+      console.log('Update result:', result);
       if (result) {
         setAboutData(result);
         toast({ title: "About section updated successfully!" });
+        // Reload data to ensure consistency
+        await loadAbout();
       } else {
         throw new Error('Failed to update about section');
       }
     } catch (error) {
+      console.error('Error updating about:', error);
       toast({ 
         title: "Error", 
         description: "Failed to update about section",

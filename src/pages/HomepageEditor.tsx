@@ -30,6 +30,7 @@ const HomepageEditor = () => {
   const loadHomepageSettings = async () => {
     try {
       const data = await fetchHomepageSettings();
+      console.log('Loaded homepage data:', data);
       setHomepageData(data);
     } catch (error) {
       console.error('Error loading homepage data:', error);
@@ -48,15 +49,21 @@ const HomepageEditor = () => {
       banner_description: formData.get('banner_description') as string
     };
 
+    console.log('Submitting homepage update:', homepageUpdate);
+
     try {
       const result = await updateHomepageSettings(homepageUpdate);
+      console.log('Update result:', result);
       if (result) {
         setHomepageData(result);
         toast({ title: "Homepage settings updated successfully!" });
+        // Reload data to ensure consistency
+        await loadHomepageSettings();
       } else {
         throw new Error('Failed to update homepage settings');
       }
     } catch (error) {
+      console.error('Error updating homepage:', error);
       toast({ 
         title: "Error", 
         description: "Failed to update homepage settings",
@@ -86,6 +93,7 @@ const HomepageEditor = () => {
       formData.append('cv', file);
       
       const result = await uploadCV(formData);
+      console.log('CV upload result:', result);
       if (result) {
         // Refresh the homepage data to show the updated CV path
         await loadHomepageSettings();

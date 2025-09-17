@@ -172,8 +172,8 @@ const Index = () => {
                   className="text-blue-900 border-white hover:bg-white hover:text-blue-900"
                 >
                   <a 
-                    href={cvUrl} 
-                    download="Anas_Ismail_CV.pdf"
+                    href="/cv.pdf"
+                    
                     className="flex items-center"
                   >
                     <Download size={20} className="mr-2" />

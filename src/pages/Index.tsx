@@ -58,17 +58,8 @@ const Index = () => {
 
   // Function to get the correct CV URL
   const getCVUrl = (cvPath: string | undefined) => {
-    if (!cvPath) return null;
-    
-    // In development, use the relative path (proxy will handle it)
-    if (import.meta.env.DEV) {
-      return cvPath;
-    }
-    
-    // In production, use the full backend URL
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-    const backendUrl = apiUrl.replace('/api', '');
-    return `${backendUrl}${cvPath}`;
+    // Always point to the public CV file
+    return '/CV.pdf';
   };
 
   const cvUrl = getCVUrl(homepageData?.cv_file_path);
@@ -182,8 +173,7 @@ const Index = () => {
                 >
                   <a 
                     href={cvUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
+                    download="Anas_Ismail_CV.pdf"
                     className="flex items-center"
                   >
                     <Download size={20} className="mr-2" />
